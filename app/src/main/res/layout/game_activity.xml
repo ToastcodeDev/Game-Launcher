@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:background="@drawable/frame_background"
+     android:layout_margin="8dp"
+     tools:context=".MainActivity">
+
+    <ScrollView
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         android:scrollbars="none"
+         android:fillViewport="true"
+         android:layout_margin="0dp"
+         android:paddingBottom="10dp">
+
+        <LinearLayout
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:gravity="left"
+             android:paddingRight="10dp"
+             android:padding="16dp"
+             android:orientation="vertical"
+             android:paddingLeft="10dp"
+             android:layout_marginTop="16dp">
+
+            <LinearLayout
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:gravity="left"
+                 android:orientation="horizontal"
+                 android:paddingBottom="16dp">
+
+                <ImageView
+                     android:layout_height="28dp"
+                     android:layout_width="28dp"
+                     android:src="@drawable/ic_close"
+                     android:contentDescription="Close"
+                     android:layout_marginLeft="5dp"
+                     android:id="@+id/Close_Menu" />
+
+                <Space
+                     android:layout_height="40dp"
+                     android:layout_width="0dp"
+                     android:layout_weight="1" />
+
+                <ImageView
+                     android:layout_height="28dp"
+                     android:layout_width="28dp"
+                     android:src="@drawable/ic_delete"
+                     android:contentDescription="Delete"
+                     android:tint="?android:attr/colorAccent"
+                     android:layout_marginRight="5dp"
+                     android:id="@+id/Remove_Game" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:gravity="center"
+                 android:orientation="vertical"
+                 android:layout_marginTop="80dp">
+
+                <ImageView
+                     android:layout_height="100dp"
+                     android:layout_width="100dp"
+                     android:layout_marginBottom="16dp"
+                     android:src="@drawable/ic_game_unknown"
+                     android:contentDescription="Game Icon"
+                     android:padding="10dp"
+                     android:id="@+id/Game_Icon" />
+
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:layout_marginBottom="10dp"
+                     android:textSize="26sp"
+                     android:textColor="#FFFFFF"
+                     android:maxLines="2"
+                     android:id="@+id/Game_Title"
+                     android:text="Loading..."
+                     android:textStyle="bold" />
+
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:layout_marginBottom="20dp"
+                     android:textSize="16sp"
+                     android:textColor="#999999"
+                     android:id="@+id/Game_Package"
+                     android:text="Loading..."
+                     android:textStyle="bold" />
+
+                <LinearLayout
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:background="@drawable/rounded_background"
+                     android:elevation="6dp"
+                     android:padding="20dp"
+                     android:orientation="vertical"
+                     android:layout_marginTop="20dp"
+                     android:id="@+id/Game_Time_Adapter">
+
+                    <TextView
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         android:layout_marginBottom="12dp"
+                         android:textSize="18sp"
+                         android:textColor="#FFFFFF"
+                         android:id="@+id/Game_Time_Title"
+                         android:text="@string/game_time"
+                         android:textStyle="bold" />
+
+                    <TextView
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         android:gravity="right"
+                         android:textSize="20sp"
+                         android:textColor="#FFFFFF"
+                         android:id="@+id/total_time"
+                         android:text="Loading..."
+                         android:textStyle="bold"
+                         android:tooltipText="@string/totalTimeTip" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:background="@drawable/rounded_background"
+                     android:elevation="6dp"
+                     android:padding="20dp"
+                     android:orientation="vertical"
+                     android:layout_marginTop="20dp">
+
+                    <TextView
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         android:layout_marginBottom="12dp"
+                         android:textSize="18sp"
+                         android:textColor="#FFFFFF"
+                         android:id="@+id/App_info_Title"
+                         android:text="@string/game_info"
+                         android:textStyle="bold" />
+
+                    <LinearLayout
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         android:orientation="horizontal"
+                         android:layout_marginTop="5dp">
+
+                        <TextView
+                             android:layout_height="match_parent"
+                             android:layout_width="0dp"
+                             android:textSize="16sp"
+                             android:textColor="#FEFEFE"
+                             android:layout_weight="1"
+                             android:id="@+id/Version_Title"
+                             android:text="Version:" />
+
+                        <TextView
+                             android:layout_height="wrap_content"
+                             android:layout_width="wrap_content"
+                             android:textSize="16sp"
+                             android:textColor="#999999"
+                             android:singleLine="true"
+                             android:id="@+id/Game_version"
+                             android:text="1.0" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         android:orientation="horizontal"
+                         android:layout_marginTop="15dp">
+
+                        <TextView
+                             android:layout_height="wrap_content"
+                             android:layout_width="0dp"
+                             android:textSize="16sp"
+                             android:textColor="#FEFEFE"
+                             android:layout_weight="1"
+                             android:id="@+id/Size_Title"
+                             android:text="@string/size" />
+
+                        <TextView
+                             android:layout_height="wrap_content"
+                             android:layout_width="wrap_content"
+                             android:textSize="16sp"
+                             android:textColor="#999999"
+                             android:id="@+id/Game_size"
+                             android:text="0 MB" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

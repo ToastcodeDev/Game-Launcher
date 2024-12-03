@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:layout_marginBottom="8dp"
+     android:background="@drawable/item_background"
+     android:padding="8dp"
+     android:layout_marginTop="8dp">
+
+    <LinearLayout
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:gravity="center_vertical"
+         android:orientation="horizontal"
+         android:id="@+id/Game_Header">
+
+        <ImageView
+             android:layout_height="48dp"
+             android:layout_width="48dp"
+             android:src="@drawable/ic_game_unknown"
+             android:scaleType="centerCrop"
+             android:id="@+id/Game_Icon" />
+
+        <TextView
+             android:layout_height="wrap_content"
+             android:layout_width="0dp"
+             android:textSize="16sp"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:textColor="#FFFFFF"
+             android:layout_weight="1"
+             android:id="@+id/Game_Title"
+             android:text="Loading..."
+             android:textStyle="bold" />
+
+        <ImageView
+             android:layout_height="25dp"
+             android:layout_width="25dp"
+             android:src="@drawable/ic_start_game"
+             android:scaleType="fitCenter"
+             android:layout_marginRight="5dp"
+             android:id="@+id/Open_Game" />
+
+    </LinearLayout>
+
+</RelativeLayout>

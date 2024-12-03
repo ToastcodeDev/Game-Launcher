@@ -1,0 +1,48 @@
+<resources>
+    <!-- Nombre de la aplicación -->
+    <string name="app_name" translatable="false">Game Launcher</string>
+    <string name="developer">Un lanzador sencillo para organizar tus juegos favoritos</string>
+
+    <!-- Menú -->
+    <string name="add_games">Añadir manualmente</string>
+    <string name="detect_automatically">Detectar Juegos</string>
+    <string name="settings">Configuración</string>
+    <string name="about">Acerca de</string>
+
+    <!-- Estado de la lista de juegos -->
+    <string name="blacklist_cleared">Lista negra borrada y juegos detectados</string>
+    <string name="select_game">Selecciona un juego:</string>
+    <string name="game_list_exist">¡Este juego ya fue agregado!</string>
+    <string name="game_not_found">Juego no encontrado</string>
+    <string name="game_deleted_success">Removido exitosamente del Launcher</string>
+    <string name="select_game_error">No se pudo iniciar</string>
+    
+      <!-- Selección de juego -->
+    <string name="browse_game_header">Selecciona un juego:</string>
+
+    <!-- Diálogo de eliminación de juego -->
+    <string name="remove_dialog_title">Remover juego</string>
+    <string name="remove_dialog_message">¿Estás seguro de que quieres remover el juego de Game Launcher?</string>
+    <string name="remove_dialog_positive">Sí</string>
+    <string name="remove_dialog_negative">No</string>
+
+    <!-- Mensajes de carga y estado -->
+    <string name="coming_soon">No disponible</string>
+    <string name="loading">Cargando...</string>
+
+    <!-- Información del juego -->
+    <string name="game_time">Tiempo de juego:</string>
+    <string name="game_info">Información de la app:</string>
+    <string name="version">Version:</string>
+    <string name="size">Tamaño:</string>
+    <string name="no_time_measured">No Medido</string>
+
+    <!-- Errores de fragmentos -->
+    <string name="fragment_icon_error">No se pudo encontrar el icono del juego.</string>
+    <string name="fragment_info_error">Error al obtener la información de la app.</string>
+     <string name="invalid_game_package">Esto no es un juego</string>
+
+    <!-- Ajustes -->
+    <string name="switch_hide_time">Ocultar el tiempo de juegos</string>
+    <string name="totalTimeTip">ESTE VALOR SE REINICIA EN 24H.</string>
+</resources>
