@@ -12,6 +12,7 @@
     <!-- Estado de la lista de juegos -->
     <string name="blacklist_cleared">Lista negra borrada y juegos detectados</string>
     <string name="select_game">Selecciona un juego:</string>
+    <string name="dialog_cancel">Cancelar</string>
     <string name="game_list_exist">¡Este juego ya fue agregado!</string>
     <string name="game_not_found">Juego no encontrado</string>
     <string name="game_deleted_success">Removido exitosamente del Launcher</string>
