@@ -28,5 +28,7 @@ Contributions are welcome! Feel free to make a [bug report](https://github.com/T
 
 ## 📜 License
 
+![license](https://imgur.com/QQlcEVT.png)
+
 This project is licensed under the  [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html) License </br>
 Copyright © 2024 [ToastcodeDev](https://github.com/ToastcodeDev).
