@@ -28,7 +28,7 @@
          android:layout_gravity="center|left"
          android:gravity="center|left"
          android:paddingBottom="8dp"
-         android:lines="1"
+         android:maxLines="1"
          android:paddingLeft="8dp"
          android:layout_weight="1"
          android:textStyle="bold"

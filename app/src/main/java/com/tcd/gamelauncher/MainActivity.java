@@ -8,22 +8,13 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +23,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,16 +36,20 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements GameFragment.OnGameActionListener {
+
   private static final String PREFS_NAME = "GameLauncherPrefs";
   private static final String GAMES_KEY = "games";
   private static final String BLACKLIST_KEY = "blacklist";
-  private static final int MAX_GAMES = 100;
+  public static final int MAX_GAMES = 100;
   private static final String TAG = "GameLauncher";
   private static final String LAST_RESET_TIME_KEY = "lastResetTime";
 
-  private boolean allowPopupMenu = true;
   private RecyclerView gameListRecyclerView;
   private GameAdapter gameAdapter;
   private List<Game> gameList = Collections.synchronizedList(new ArrayList<>());
@@ -65,18 +64,22 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    executorService = Executors.newFixedThreadPool(3);
+    executorService =
+        new ThreadPoolExecutor(
+            3, 3, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+
     packageManager = getPackageManager();
     gson = new Gson();
     sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-
-    initializeViews();
+        
+    initViews();
     loadBlacklist();
     loadGamesAsync();
     setStatusBarColor();
+    setupBackPressHandler();
   }
 
-  private void initializeViews() {
+  private void initViews() {
     gameListRecyclerView = findViewById(R.id.Game_list);
     View toolbarMenu = findViewById(R.id.Toolbar_menu);
 
@@ -101,32 +104,35 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
   private void loadGamesAsync() {
     executorService.execute(
         () -> {
-          String jsonGames = sharedPreferences.getString(GAMES_KEY, null);
-          if (jsonGames != null) {
-            Type listType = new TypeToken<List<Game>>() {}.getType();
-            List<Game> savedGames = gson.fromJson(jsonGames, listType);
+            String jsonGames = sharedPreferences.getString(GAMES_KEY, null);
+            if (jsonGames != null) {
+                Type listType = new TypeToken<List<Game>>() {}.getType();
+                List<Game> savedGames = gson.fromJson(jsonGames, listType);
 
-            if (savedGames != null) {
-              synchronized (gameList) {
-                gameList.clear();
-                for (Game game : savedGames) {
-                  try {
-                    Drawable icon = packageManager.getApplicationIcon(game.packageName);
-                    game.icon = icon;
-                    gameList.add(game);
-                  } catch (PackageManager.NameNotFoundException e) {
-                    // App icon not found
-                  }
+                if (savedGames != null) {
+                    synchronized (gameList) {
+                        gameList.clear();
+                        for (Game game : savedGames) {
+                            try {
+                                Drawable icon = packageManager.getApplicationIcon(game.packageName);
+                                game.icon = icon;
+                                gameList.add(game);
+                            } catch (PackageManager.NameNotFoundException e) {
+                                // App icon not found
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
-          addInstalledGamesAutomatically();
-          runOnUiThread(() -> gameAdapter.notifyDataSetChanged());
+            loadBlacklist(); 
+            executorService.execute(() -> {
+                autoDetectGames();
+                runOnUiThread(() -> gameAdapter.notifyDataSetChanged());
+            });
         });
-  }
+}
 
-  private void addInstalledGamesAutomatically() {
+  private void autoDetectGames() {
     if (gameList.size() >= MAX_GAMES) return;
 
     List<ApplicationInfo> apps =
@@ -137,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
                 app ->
                     (app.flags & ApplicationInfo.FLAG_SYSTEM) == 0
                         && isGameApp(app)
-                        && !blacklist.contains(app.packageName)
+                        && !blacklist.contains(app.packageName.trim().toLowerCase())
                         && gameList.stream().noneMatch(g -> g.packageName.equals(app.packageName)))
             .sorted(
                 (app1, app2) ->
@@ -170,19 +176,14 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
   private void saveBlacklist() {
     executorService.execute(
         () -> sharedPreferences.edit().putString(BLACKLIST_KEY, gson.toJson(blacklist)).apply());
-  }
+}
 
-  private void saveGames() {
+  private void saveGame() {
     executorService.execute(
         () -> sharedPreferences.edit().putString(GAMES_KEY, gson.toJson(gameList)).apply());
   }
 
-  public void setAllowPopupMenu(boolean allow) {
-    this.allowPopupMenu = allow;
-  }
-
   private void showToolbarMenu(View view) {
-    if (!allowPopupMenu) return;
 
     Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuStyle);
     PopupMenu popupMenu = new PopupMenu(wrapper, view);
@@ -198,13 +199,13 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
           String title = item.getTitle().toString();
 
           if (title.equals(getString(R.string.add_games))) {
-            showAppSelector();
+            openAppSelector();
             return true;
           } else if (title.equals(getString(R.string.detect_automatically))) {
-            detectAutomaticallyAndClearBlacklist();
+            autoDetectErase();
             return true;
           } else if (title.equals(getString(R.string.settings))) {
-            openSettingsFragment();
+            openSettings();
             return true;
           } else if (title.equals(getString(R.string.about))) {
             showAboutDialog();
@@ -217,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
     popupMenu.show();
   }
 
-  private void openSettingsFragment() {
+  private void openSettings() {
     SettingsFragment settingsFragment = new SettingsFragment();
     getSupportFragmentManager()
         .beginTransaction()
@@ -231,21 +232,21 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
         .commit();
   }
 
-  private void detectAutomaticallyAndClearBlacklist() {
+  private void autoDetectErase() {
     executorService.execute(
         () -> {
-          blacklist.clear();
-          saveBlacklist();
-          addInstalledGamesAutomatically();
-          saveGames();
+            synchronized (gameList) {
+                gameList.clear();
+            }
+            autoDetectGames();
+            saveGame();
 
-          runOnUiThread(
-              () -> {
+            runOnUiThread(() -> {
                 gameAdapter.notifyDataSetChanged();
-                updateUIBasedOnGameList();
-              });
+                updateBasedList();
+            });
         });
-  }
+}
 
   private void setStatusBarColor() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -256,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
     }
   }
 
-  private void showAppSelector() {
+  private void openAppSelector() {
     PackageManager pm = getPackageManager();
     List<ApplicationInfo> apps = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
@@ -284,44 +285,23 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
   }
 
   public void addGame(String packageName, String title, Drawable icon) {
-    Set<String> blacklist = loadBlacklistFromAssets();
+    Set<String> blacklist = lockAddOfAssets();
 
     if (blacklist.contains(packageName)) {
-      showToast(
-          getString(
-              R.string.invalid_game_package));
+      showToast(getString(R.string.invalid_game_package));
       return;
     }
 
     if (gameList.stream().anyMatch(g -> g.packageName.equals(packageName))) {
-      showToast(
-          getString(R.string.game_list_exist));
+      showToast(getString(R.string.game_list_exist));
       return;
     }
 
     Game newGame = new Game(packageName, title, icon);
     gameList.add(newGame);
     gameAdapter.notifyItemInserted(gameList.size() - 1);
-    saveGames();
-    updateUIBasedOnGameList();
-  }
-
-  private Set<String> loadBlacklistFromAssets() {
-    Set<String> blacklist = new HashSet<>();
-
-    try (InputStream inputStream = getAssets().open("blacklist.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-
-      String line;
-      while ((line = reader.readLine()) != null) {
-        blacklist.add(line.trim());
-      }
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return blacklist;
+    saveGame();
+    updateBasedList();
   }
 
   private synchronized void removeGame(int position) {
@@ -330,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
       gameList.remove(position);
       gameAdapter.notifyItemRemoved(position);
       gameAdapter.notifyItemRangeChanged(position, gameList.size());
-      saveGames();
+      saveGame();
 
       if (!blacklist.contains(removedGame.packageName)) {
         blacklist.add(removedGame.packageName);
@@ -340,28 +320,26 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
       runOnUiThread(
           () -> {
             showToast(getString(R.string.game_deleted_success));
-            updateUIBasedOnGameList();
+            updateBasedList();
           });
     }
   }
 
-  @Override
-  public void onGameRemove(String packageName) {
-    synchronized (gameList) {
-      for (int i = 0; i < gameList.size(); i++) {
-        if (gameList.get(i).packageName.equals(packageName)) {
-          gameList.remove(i);
-          gameAdapter.notifyItemRemoved(i);
-          gameAdapter.notifyItemRangeChanged(i, gameList.size());
-          saveGames();
-          showToast(getString(R.string.game_deleted_success));
-          break;
-        }
+  private Set<String> lockAddOfAssets() {
+    Set<String> blacklist = new HashSet<>();
+    try (InputStream inputStream = getAssets().open("blacklist.txt");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        blacklist.add(line.trim());
       }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return blacklist;
   }
 
-  private void updateUIBasedOnGameList() {
+  private void updateBasedList() {
     TextView blankStateTextView = findViewById(R.id.Blank_state);
     RecyclerView recyclerView = findViewById(R.id.Game_list);
 
@@ -387,21 +365,38 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
         startActivity(launchIntent);
       }
 
-      saveGames();
+      saveGame();
     } else {
       showToast(getString(R.string.select_game_error));
+    }
+  }
+
+  @Override
+  public void onGameRemove(String packageName) {
+    synchronized (gameList) {
+      for (int i = 0; i < gameList.size(); i++) {
+        if (gameList.get(i).packageName.equals(packageName)) {
+          gameList.remove(i);
+          gameAdapter.notifyItemRemoved(i);
+          gameAdapter.notifyItemRangeChanged(i, gameList.size());
+          saveGame();
+          showToast(getString(R.string.game_deleted_success));
+          break;
+        }
+      }
     }
   }
 
   private void showAboutDialog() {
     new MaterialAlertDialogBuilder(this)
         .setTitle(getString(R.string.app_name))
-        .setMessage(getString(R.string.developer)+".\n\n© 2024 ToastcodeDev")
+        .setMessage(getString(R.string.developer) + ".\n\n© 2024 ToastcodeDev")
         .setPositiveButton("OK", null)
+        .setCancelable(false)
         .show();
   }
 
-  private void showToast(String message) {
+  public void showToast(String message) {
     Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
   }
 
@@ -410,104 +405,6 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
     super.onDestroy();
     if (executorService != null) {
       executorService.shutdown();
-    }
-  }
-
-  public static class Game {
-    String packageName;
-    String title;
-    transient Drawable icon;
-    long totalTimePlayed;
-    long lastStartTime;
-
-    Game(String packageName, String title, Drawable icon) {
-      this.packageName = packageName;
-      this.title = title;
-      this.icon = icon;
-      this.totalTimePlayed = 0;
-      this.lastStartTime = 0;
-    }
-  }
-
-  private static class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder> {
-    private final List<Game> gameList;
-    private final Context context;
-    private final GameLaunchCallback launchCallback;
-    private final GameRemoveCallback removeCallback;
-
-    interface GameLaunchCallback {
-      void onLaunch(String packageName);
-    }
-
-    interface GameRemoveCallback {
-      void onRemove(int position);
-    }
-
-    GameAdapter(
-        List<Game> gameList,
-        Context context,
-        GameLaunchCallback launchCallback,
-        GameRemoveCallback removeCallback) {
-      this.gameList = gameList;
-      this.context = context;
-      this.launchCallback = launchCallback;
-      this.removeCallback = removeCallback;
-    }
-
-    @NonNull
-    @Override
-    public GameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(context).inflate(R.layout.game_container, parent, false);
-      return new GameViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
-      Game game = gameList.get(position);
-      holder.gameTitle.setText(game.title);
-      holder.gameIcon.setImageDrawable(game.icon);
-
-      holder.openGame.setOnClickListener(v -> launchCallback.onLaunch(game.packageName));
-
-      holder.itemView.setOnClickListener(
-          v -> {
-            GameFragment gameFragment = new GameFragment();
-            Bundle args = new Bundle();
-            args.putString("PACKAGE_NAME", game.packageName);
-            args.putString("GAME_TITLE", game.title);
-            args.putLong("TOTAL_TIME_PLAYED", game.totalTimePlayed);
-            args.putLong("LAST_START_TIME", game.lastStartTime);
-            gameFragment.setArguments(args);
-
-            ((MainActivity) context)
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right,
-                    R.anim.enter_from_right,
-                    R.anim.exit_to_left)
-                .replace(R.id.Framelay, gameFragment)
-                .addToBackStack(null)
-                .commit();
-          });
-    }
-
-    @Override
-    public int getItemCount() {
-      return gameList.size();
-    }
-
-    static class GameViewHolder extends RecyclerView.ViewHolder {
-      TextView gameTitle;
-      ImageView gameIcon, openGame;
-
-      GameViewHolder(@NonNull View itemView) {
-        super(itemView);
-        gameTitle = itemView.findViewById(R.id.Game_Title);
-        gameIcon = itemView.findViewById(R.id.Game_Icon);
-        openGame = itemView.findViewById(R.id.Open_Game);
-      }
     }
   }
 
@@ -528,33 +425,42 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
     }
 
     if (dataChanged) {
-      saveGames();
+      saveGame();
       runOnUiThread(() -> gameAdapter.notifyDataSetChanged());
     }
   }
 
-  @Override
-  public void onBackPressed() {
-    if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-      getSupportFragmentManager().popBackStack();
-    } else {
-      super.onBackPressed();
-    }
+  private void setupBackPressHandler() {
+    getOnBackPressedDispatcher()
+        .addCallback(
+            this,
+            new OnBackPressedCallback(true) {
+              @Override
+              public void handleOnBackPressed() {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                  getSupportFragmentManager().popBackStack();
+                } else {
+                  finish();
+                }
+              }
+            });
   }
 
-  private void resetTotalTimeIfNeeded() {
-    long currentTime = System.currentTimeMillis();
-    long lastResetTime = sharedPreferences.getLong(LAST_RESET_TIME_KEY, 0);
-
-    if (currentTime - lastResetTime >= 24 * 60 * 60 * 1000) {
-      synchronized (gameList) {
-        for (Game game : gameList) {
-          game.totalTimePlayed = 0;
-        }
-      }
-      saveGames();
-      sharedPreferences.edit().putLong(LAST_RESET_TIME_KEY, currentTime).apply();
-      runOnUiThread(() -> gameAdapter.notifyDataSetChanged());
-    }
+  public void resetGameTime() {
+    executorService.execute(
+        () -> {
+          synchronized (gameList) {
+            for (Game game : gameList) {
+              game.totalTimePlayed = 0;
+              game.lastStartTime = 0;
+            }
+            saveGame();
+          }
+          runOnUiThread(
+              () -> {
+                gameAdapter.notifyDataSetChanged();
+              });
+        });
   }
 }
+

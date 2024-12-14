@@ -23,6 +23,8 @@ import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameFragment extends Fragment {
   private String packageName;
@@ -55,14 +57,12 @@ public class GameFragment extends Fragment {
     Drawable gameIcon = getAppIcon(packageName);
     fetchGameInfo();
     updateUI(view, gameIcon);
-    setupButtonListeners(view);
+    setupBtnListeners(view);
 
     gameTimeAdapter = view.findViewById(R.id.Game_Time_Adapter);
 
     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
     boolean isHideTime = preferences.getBoolean("hide_time", false);
-
-    // Ocultar/mostrar adaptador según el estado
     gameTimeAdapter.setVisibility(isHideTime ? View.GONE : View.VISIBLE);
 
     return view;
@@ -73,7 +73,8 @@ public class GameFragment extends Fragment {
       gameVersion = getAppVersion(packageName);
       gameSize = getAppSize(packageName);
     } catch (PackageManager.NameNotFoundException e) {
-      showToast(getString(R.string.fragment_info_error));
+      MainActivity mainActivity = (MainActivity) requireActivity();
+      mainActivity.showToast(getString(R.string.fragment_info_error));
     }
   }
 
@@ -98,8 +99,8 @@ public class GameFragment extends Fragment {
       PackageManager pm = requireActivity().getPackageManager();
       return pm.getApplicationIcon(packageName);
     } catch (PackageManager.NameNotFoundException e) {
-      e.printStackTrace();
-      showToast(getString(R.string.fragment_icon_error));
+            MainActivity mainActivity = (MainActivity) requireActivity();
+mainActivity.showToast(getString(R.string.fragment_icon_error));
       return null;
     }
   }
@@ -112,25 +113,62 @@ public class GameFragment extends Fragment {
   private String getAppSize(String packageName) throws PackageManager.NameNotFoundException {
     PackageManager pm = requireActivity().getPackageManager();
     ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
-    long appSizeBytes = new File(appInfo.sourceDir).length();
 
-    return formatFileSize(appSizeBytes);
+    long apkSizeBytes = new File(appInfo.sourceDir).length();
+
+    long dataSizeBytes = 0;
+    File dataDir = new File(appInfo.dataDir);
+    if (dataDir.exists()) {
+      dataSizeBytes = calculateDirectorySize(dataDir);
+    }
+
+    long totalSizeBytes = apkSizeBytes + dataSizeBytes;
+
+    return formatFileSize(totalSizeBytes);
+  }
+
+  private long calculateDirectorySize(File directory) {
+    long length = 0;
+    if (directory.exists()) {
+      File[] files = directory.listFiles();
+      if (files != null) {
+        for (File file : files) {
+          if (file.isDirectory()) {
+            length += calculateDirectorySize(file);
+          } else {
+            length += file.length();
+          }
+        }
+      }
+    }
+    return length;
   }
 
   private String formatFileSize(long sizeBytes) {
+    if (sizeBytes <= 0) {
+      return "0 MB";
+    }
+
     double sizeMB = sizeBytes / (1024.0 * 1024.0);
-    if (sizeMB < 1024) {
+
+    if (sizeMB < 1) {
       return String.format("%.2f MB", sizeMB);
+    } else if (sizeMB < 1024) {
+      return String.format("%.2f MB", sizeMB);
+    } else {
+      double sizeGB = sizeMB / 1024.0;
+
+      if (sizeGB < 1024) {
+        return String.format("%.2f GB", sizeGB);
+      } else {
+        double sizeTB = sizeGB / 1024.0;
+        return String.format("%.2f TB", sizeTB);
+      }
     }
-    double sizeGB = sizeMB / 1024.0;
-    if (sizeGB < 1024) {
-      return String.format("%.2f GB", sizeGB);
-    }
-    return String.format("%.2f TB", sizeGB / 1024.0);
   }
 
   private String formatTime(long totalTime) {
-    if (totalTime == 0) {
+    if (totalTime <= 0) {
       return getString(R.string.no_time_measured);
     }
 
@@ -139,22 +177,22 @@ public class GameFragment extends Fragment {
     long hours = (totalTime / (1000 * 60 * 60)) % 24;
     long days = totalTime / (1000 * 60 * 60 * 24);
 
-    StringBuilder formattedTime = new StringBuilder();
+    List<String> timeParts = new ArrayList<>();
 
     if (days > 0) {
-      formattedTime.append(days).append("d ");
+      timeParts.add(days + "d");
     }
     if (hours > 0 || days > 0) {
-      formattedTime.append(hours).append("h ");
+      timeParts.add(hours + "h");
     }
     if (minutes > 0 || hours > 0 || days > 0) {
-      formattedTime.append(minutes).append("m ");
+      timeParts.add(minutes + "m");
     }
-    if (seconds > 0 || formattedTime.length() == 0) {
-      formattedTime.append(seconds).append("s");
+    if (seconds > 0 || timeParts.isEmpty()) {
+      timeParts.add(seconds + "s");
     }
 
-    return formattedTime.toString().trim();
+    return String.join(" ", timeParts);
   }
 
   @Override
@@ -167,7 +205,7 @@ public class GameFragment extends Fragment {
     }
   }
 
-  private void setupButtonListeners(View view) {
+  private void setupBtnListeners(View view) {
     ImageView closeMenuButton = view.findViewById(R.id.Close_Menu);
     closeMenuButton.setOnClickListener(
         v ->
@@ -193,19 +231,14 @@ public class GameFragment extends Fragment {
         });
   }
 
-  private void showToast(String message) {
-    Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
-  }
-
   @Override
   public void onResume() {
     super.onResume();
-    ((MainActivity) requireActivity()).setAllowPopupMenu(false);
   }
 
   @Override
   public void onPause() {
     super.onPause();
-    ((MainActivity) requireActivity()).setAllowPopupMenu(true);
   }
 }
+

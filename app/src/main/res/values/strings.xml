@@ -1,49 +1,55 @@
 <resources>
-    <!-- App Name -->
-    <string name="app_name" translatable="false">Game Launcher</string>
-     <string name="developer">A simple Launcher to organize your favorite games</string>
-    
-    <!-- Menu Options -->
-    <string name="add_games">Add games manually</string>
-    <string name="detect_automatically">Detect automatically</string>
+    <!-- Application Name -->
+    <string
+        name="app_name"
+        translatable="false">Game Launcher</string>
+    <string name="developer">A simple launcher to organize your favorite games</string>
+
+    <!-- Menu -->
+    <string name="add_games">Add manually</string>
+    <string name="detect_automatically">Detect Games</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
 
-    <!-- General Status Messages -->
-    <string name="coming_soon">Coming soon</string>
+    <!-- Game list status -->
     <string name="blacklist_cleared">Blacklist cleared and games detected</string>
     <string name="select_game">Select a game:</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="game_list_exist">Game already added!</string>
-    <string name="game_not_found">Game not found!</string>
-    <string name="game_deleted_success">Game removed successfully</string>
-    <string name="select_game_error">Cannot launch</string>
-    
-    <!-- Game Selection -->
-    <string name="browse_game_header">Browse game:</string>
+    <string name="game_list_exist">This game has already been added!</string>
+    <string name="game_not_found">Game not found</string>
+    <string name="game_deleted_success">Successfully removed from the Launcher</string>
+    <string name="select_game_error">Could not start</string>
 
-    <!-- Removal Confirmation Dialog -->
-    <string name="remove_dialog_title">Remove Game</string>
-    <string name="remove_dialog_message">Are you sure you want to remove this game from the launcher?</string>
-    <string name="remove_dialog_positive">Yes</string>
-    <string name="remove_dialog_negative">No</string>
+    <!-- Game selection -->
+    <string name="browse_game_header">Select a game:</string>
 
-    <!-- Loading and Status -->
+    <!-- Dialog -->
+    <string name="dialog_positive">Yes</string>
+    <string name="dialog_negative">No</string>
+
+    <!-- Loading and status messages -->
+    <string name="coming_soon">Not available</string>
     <string name="loading">Loading...</string>
+    <string name="operation_success">Operation completed!</string>
 
-    <!-- Game Information -->
-    <string name="game_time">Game Time:</string>
-    <string name="game_info">App Info:</string>
-    <string name="version">Version</string>
-    <string name="size">Size</string>
+    <!-- Game information -->
+    <string name="game_time">Game time:</string>
+    <string name="game_info">App information:</string>
+    <string name="version">Version:</string>
+    <string name="size">Size:</string>
     <string name="no_time_measured">Not measured</string>
 
-    <!-- Errors -->
-    <string name="fragment_icon_error">Failed to find the game icon.</string>
+    <!-- Fragment errors -->
+    <string name="fragment_icon_error">Could not find the game icon.</string>
     <string name="fragment_info_error">Error retrieving app information.</string>
-   <string name="invalid_game_package">This is not a game.</string>
+    <string name="invalid_game_package">This is not a game</string>
 
     <!-- Settings -->
     <string name="switch_hide_time">Hide game time</string>
-   <string name="totalTimeTip">RESETS IN 24H.</string>
+    <string name="txt_clear_time">Clear game activity</string>
+    <string name="clear_time_btn">Clear</string>
+    <string name="appearance_subtitle">Appearance</string>
+    <string name="data_subtitle">Data control</string>
+    <string name="time_dialog_title">Confirmation</string>
+    <string name="time_dialog_message">"Are you sure you want to reset all recorded game time?"</string>
 </resources>

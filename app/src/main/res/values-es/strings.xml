@@ -1,6 +1,8 @@
 <resources>
     <!-- Nombre de la aplicación -->
-    <string name="app_name" translatable="false">Game Launcher</string>
+    <string
+        name="app_name"
+        translatable="false">Game Launcher</string>
     <string name="developer">Un lanzador sencillo para organizar tus juegos favoritos</string>
 
     <!-- Menú -->
@@ -17,20 +19,19 @@
     <string name="game_not_found">Juego no encontrado</string>
     <string name="game_deleted_success">Removido exitosamente del Launcher</string>
     <string name="select_game_error">No se pudo iniciar</string>
-    
-      <!-- Selección de juego -->
+
+    <!-- Selección de juego -->
     <string name="browse_game_header">Selecciona un juego:</string>
 
-    <!-- Diálogo de eliminación de juego -->
-    <string name="remove_dialog_title">Remover juego</string>
-    <string name="remove_dialog_message">¿Estás seguro de que quieres remover el juego de Game Launcher?</string>
-    <string name="remove_dialog_positive">Sí</string>
-    <string name="remove_dialog_negative">No</string>
+    <!-- Diálogo -->
+    <string name="dialog_positive">Sí</string>
+    <string name="dialog_negative">No</string>
 
     <!-- Mensajes de carga y estado -->
     <string name="coming_soon">No disponible</string>
     <string name="loading">Cargando...</string>
-
+    <string name="operation_success">Operacion completada!</string>
+    
     <!-- Información del juego -->
     <string name="game_time">Tiempo de juego:</string>
     <string name="game_info">Información de la app:</string>
@@ -41,9 +42,14 @@
     <!-- Errores de fragmentos -->
     <string name="fragment_icon_error">No se pudo encontrar el icono del juego.</string>
     <string name="fragment_info_error">Error al obtener la información de la app.</string>
-     <string name="invalid_game_package">Esto no es un juego</string>
+    <string name="invalid_game_package">Esto no es un juego</string>
 
     <!-- Ajustes -->
     <string name="switch_hide_time">Ocultar el tiempo de juegos</string>
-    <string name="totalTimeTip">ESTE VALOR SE REINICIA EN 24H.</string>
+    <string name="txt_clear_time">Reiniciar la actividad en juegos</string>
+    <string name="clear_time_btn">Reiniciar</string>
+    <string name="appearance_subtitle">Apariencia</string>
+    <string name="data_subtitle">Control de datos</string>
+    <string name="time_dialog_title">Confirmación</string>
+    <string name="time_dialog_message">"Esta accion reiniciara todo el tiempo registrado dentro de los juegos, quieres proceder?</string>
 </resources>

@@ -83,7 +83,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                      android:layout_height="match_parent"
                      android:layout_width="match_parent"
-                     android:scrollbars="vertical"
+                     android:scrollbars="none"
                      android:background="#121212"
                      android:padding="8dp"
                      android:clipToPadding="false"

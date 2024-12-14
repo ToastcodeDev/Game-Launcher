@@ -95,12 +95,11 @@ public class AppSelectorFragment extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
-    ((MainActivity) requireActivity()).setAllowPopupMenu(false);
   }
 
   @Override
   public void onPause() {
     super.onPause();
-    ((MainActivity) requireActivity()).setAllowPopupMenu(true);
   }
 }
+

@@ -50,7 +50,7 @@
                 <ImageView
                      android:layout_height="28dp"
                      android:layout_width="28dp"
-                     android:src="@drawable/ic_delete"
+                     android:src="@drawable/ic_list_remove"
                      android:contentDescription="Delete"
                      android:tint="?android:attr/colorAccent"
                      android:layout_marginRight="5dp"
@@ -76,8 +76,9 @@
 
                 <TextView
                      android:layout_height="wrap_content"
-                     android:layout_width="wrap_content"
+                     android:layout_width="match_parent"
                      android:layout_marginBottom="10dp"
+                     android:gravity="center"
                      android:textSize="26sp"
                      android:textColor="#FFFFFF"
                      android:maxLines="2"
@@ -87,13 +88,14 @@
 
                 <TextView
                      android:layout_height="wrap_content"
-                     android:layout_width="wrap_content"
+                     android:layout_width="match_parent"
                      android:layout_marginBottom="20dp"
                      android:textSize="16sp"
                      android:textColor="#999999"
                      android:id="@+id/Game_Package"
                      android:text="Loading..."
-                     android:textStyle="bold" />
+                     android:textStyle="bold"
+                     android:gravity="center" />
 
                 <LinearLayout
                      android:layout_height="wrap_content"
@@ -123,8 +125,7 @@
                          android:textColor="#FFFFFF"
                          android:id="@+id/total_time"
                          android:text="Loading..."
-                         android:textStyle="bold"
-                         android:tooltipText="@string/totalTimeTip" />
+                         android:textStyle="bold" />
 
                 </LinearLayout>
 
