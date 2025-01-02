@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
                 gameList.clear();
                 for (Game game : savedGames) {
                     synchronized (blacklist) {
-                        if (!blacklist.contains(game.packageName.trim().toLowerCase())) {
+                        if (game.packageName != null && !blacklist.contains(game.packageName.trim().toLowerCase())) {
                             try {
                                 game.icon = packageManager.getApplicationIcon(game.packageName);
                                 gameList.add(game);
