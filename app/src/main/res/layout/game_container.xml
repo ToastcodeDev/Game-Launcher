@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_height="wrap_content"
-     android:layout_width="match_parent"
-     android:layout_marginBottom="8dp"
-     android:background="@drawable/item_background"
-     android:padding="8dp"
-     android:layout_marginTop="8dp">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/margin_normal"
+    android:background="@drawable/item_background"
+    android:padding="@dimen/padding_normal">
 
-    <LinearLayout
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:gravity="center_vertical"
-         android:orientation="horizontal"
-         android:id="@+id/Game_Header">
+    <ImageView
+        android:id="@+id/Game_Icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_game_unknown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-             android:layout_height="48dp"
-             android:layout_width="48dp"
-             android:src="@drawable/ic_game_unknown"
-             android:scaleType="centerCrop"
-             android:id="@+id/Game_Icon" />
+    <TextView
+        android:id="@+id/Game_Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_large"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/loading_hint"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/Game_Icon"
+        app:layout_constraintEnd_toStartOf="@id/Open_Game"
+        app:layout_constraintStart_toEndOf="@id/Game_Icon"
+        app:layout_constraintTop_toTopOf="@id/Game_Icon"
+        tools:text="Game Title" />
 
-        <TextView
-             android:layout_height="wrap_content"
-             android:layout_width="0dp"
-             android:textSize="16sp"
-             android:layout_marginLeft="10dp"
-             android:layout_marginRight="20dp"
-             android:textColor="#FFFFFF"
-             android:layout_weight="1"
-             android:id="@+id/Game_Title"
-             android:text="Loading..."
-             android:textStyle="bold"
-             android:singleLine="true"
-             android:maxLines="1" />
+    <ImageView
+        android:id="@+id/Open_Game"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_start_game"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-             android:layout_height="25dp"
-             android:layout_width="25dp"
-             android:src="@drawable/ic_start_game"
-             android:scaleType="fitCenter"
-             android:layout_marginRight="10dp"
-             android:id="@+id/Open_Game" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

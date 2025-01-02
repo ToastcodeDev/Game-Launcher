@@ -3,13 +3,14 @@
 </p>
 
 # Game Launcher
-Is a simple and efficient app designed to house your favorite games in an organized manner. With a clean and user-friendly interface, this app lets you add and manage your games either manually or automatically. </br>
+With a clean and user-friendly interface, this app lets you add and manage your games either preserving your privacy and leaving everything at your disposal in a comfortable way. </br>
 
 ## 📷 Screenshots
 <div align="center">
 <div>
 <img src="images/img_1.png" width="30%" />
 <img src="images/img_2.png" width="30%" />
+<img src="images/img_3.png" width="30%" />
 </div>
 </div>
 
@@ -31,4 +32,4 @@ Contributions are welcome! Feel free to make a [bug report](https://github.com/T
 ![license](https://imgur.com/QQlcEVT.png)
 
 This project is licensed under the  [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html) License </br>
-Copyright © 2024 [ToastcodeDev](https://github.com/ToastcodeDev).
+Copyright © 2025 [ToastcodeDev](https://github.com/ToastcodeDev).

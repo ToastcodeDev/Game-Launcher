@@ -1,9 +1,7 @@
 <resources>
     <!-- Nombre de la aplicación -->
-    <string
-        name="app_name"
-        translatable="false">Game Launcher</string>
-    <string name="developer">Un lanzador sencillo para organizar tus juegos favoritos</string>
+    <string name="app_name" translatable="false">Game Launcher</string>
+    <string name="developer">Un lanzador sencillo para organizar tus juegos favoritos.</string>
 
     <!-- Menú -->
     <string name="add_games">Añadir manualmente</string>
@@ -29,15 +27,16 @@
 
     <!-- Mensajes de carga y estado -->
     <string name="coming_soon">No disponible</string>
-    <string name="loading">Cargando...</string>
-    <string name="operation_success">Operacion completada!</string>
-    
+    <string name="loading_hint">Cargando…</string>
+    <string name="operation_success">Operación completada!</string>
+
     <!-- Información del juego -->
     <string name="game_time">Tiempo de juego:</string>
     <string name="game_info">Información de la app:</string>
     <string name="version">Version:</string>
     <string name="size">Tamaño:</string>
     <string name="no_time_measured">No Medido</string>
+    <string name="fab_show_in_settings">Ver en Ajustes</string>
 
     <!-- Errores de fragmentos -->
     <string name="fragment_icon_error">No se pudo encontrar el icono del juego.</string>
@@ -46,10 +45,11 @@
 
     <!-- Ajustes -->
     <string name="switch_hide_time">Ocultar el tiempo de juegos</string>
-    <string name="txt_clear_time">Reiniciar la actividad en juegos</string>
+    <string name="txt_clear_time">Reiniciar el tiempo de los juegos</string>
     <string name="clear_time_btn">Reiniciar</string>
     <string name="appearance_subtitle">Apariencia</string>
     <string name="data_subtitle">Control de datos</string>
     <string name="time_dialog_title">Confirmación</string>
-    <string name="time_dialog_message">"Esta accion reiniciara todo el tiempo registrado dentro de los juegos, quieres proceder?</string>
+    <string name="time_dialog_message">"Esta acción reiniciara todo el tiempo registrado dentro de los juegos, quieres proceder?</string>
+    <string name="not_games">No se detectaron juegos.</string>
 </resources>

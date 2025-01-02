@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add_games"
+        android:icon="@drawable/ic_add_games"
+        android:title="@string/add_games"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_detect_automatically"
+        android:icon="@drawable/ic_search"
+        android:title="@string/detect_automatically"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_about"
+        android:icon="@drawable/ic_about"
+        android:title="@string/about"
+        app:showAsAction="ifRoom" />
+</menu>

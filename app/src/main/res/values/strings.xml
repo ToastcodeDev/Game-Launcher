@@ -1,9 +1,7 @@
 <resources>
     <!-- Application Name -->
-    <string
-        name="app_name"
-        translatable="false">Game Launcher</string>
-    <string name="developer">A simple launcher to organize your favorite games</string>
+    <string name="app_name" translatable="false">Game Launcher</string>
+    <string name="developer">A simple launcher to organize your favorite games.</string>
 
     <!-- Menu -->
     <string name="add_games">Add manually</string>
@@ -29,7 +27,7 @@
 
     <!-- Loading and status messages -->
     <string name="coming_soon">Not available</string>
-    <string name="loading">Loading...</string>
+    <string name="loading_hint">Loading…</string>
     <string name="operation_success">Operation completed!</string>
 
     <!-- Game information -->
@@ -38,6 +36,7 @@
     <string name="version">Version:</string>
     <string name="size">Size:</string>
     <string name="no_time_measured">Not measured</string>
+    <string name="fab_show_in_settings">Show in Settings</string>
 
     <!-- Fragment errors -->
     <string name="fragment_icon_error">Could not find the game icon.</string>
@@ -46,10 +45,11 @@
 
     <!-- Settings -->
     <string name="switch_hide_time">Hide game time</string>
-    <string name="txt_clear_time">Clear game activity</string>
+    <string name="txt_clear_time">Clear all game activity</string>
     <string name="clear_time_btn">Clear</string>
     <string name="appearance_subtitle">Appearance</string>
     <string name="data_subtitle">Data control</string>
     <string name="time_dialog_title">Confirmation</string>
     <string name="time_dialog_message">"Are you sure you want to reset all recorded game time?"</string>
+    <string name="not_games">Nothing here..</string>
 </resources>

@@ -1,207 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="match_parent"
-     android:layout_width="match_parent"
-     android:background="@drawable/frame_background"
-     android:layout_margin="8dp"
-     tools:context=".MainActivity">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:background="@drawable/frame_background"
+    tools:context=".MainActivity">
 
     <ScrollView
-         android:layout_height="match_parent"
-         android:layout_width="match_parent"
-         android:scrollbars="none"
-         android:fillViewport="true"
-         android:layout_margin="0dp"
-         android:paddingBottom="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:fillViewport="true"
+        android:paddingLeft="8dp"
+        android:paddingTop="2dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="2dp"
+        android:scrollbars="none">
 
         <LinearLayout
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:gravity="left"
-             android:paddingRight="10dp"
-             android:padding="16dp"
-             android:orientation="vertical"
-             android:paddingLeft="10dp"
-             android:layout_marginTop="16dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            tools:ignore="RtlHardcoded">
 
             <LinearLayout
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:gravity="left"
-                 android:orientation="horizontal"
-                 android:paddingBottom="16dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal"
+                android:paddingBottom="16dp">
 
                 <ImageView
-                     android:layout_height="28dp"
-                     android:layout_width="28dp"
-                     android:src="@drawable/ic_close"
-                     android:contentDescription="Close"
-                     android:layout_marginLeft="5dp"
-                     android:id="@+id/Close_Menu" />
+                    android:id="@+id/Close_Menu"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/ic_close" />
 
                 <Space
-                     android:layout_height="40dp"
-                     android:layout_width="0dp"
-                     android:layout_weight="1" />
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1" />
 
                 <ImageView
-                     android:layout_height="28dp"
-                     android:layout_width="28dp"
-                     android:src="@drawable/ic_list_remove"
-                     android:contentDescription="Delete"
-                     android:tint="?android:attr/colorAccent"
-                     android:layout_marginRight="5dp"
-                     android:id="@+id/Remove_Game" />
+                    android:id="@+id/Remove_Game"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_list_remove"
+                    app:tint="?android:attr/colorAccent" />
 
             </LinearLayout>
 
             <LinearLayout
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:gravity="center"
-                 android:orientation="vertical"
-                 android:layout_marginTop="80dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
-                     android:layout_height="100dp"
-                     android:layout_width="100dp"
-                     android:layout_marginBottom="16dp"
-                     android:src="@drawable/ic_game_unknown"
-                     android:contentDescription="Game Icon"
-                     android:padding="10dp"
-                     android:id="@+id/Game_Icon" />
+                    android:id="@+id/Game_Icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="16dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_game_unknown" />
 
                 <TextView
-                     android:layout_height="wrap_content"
-                     android:layout_width="match_parent"
-                     android:layout_marginBottom="10dp"
-                     android:gravity="center"
-                     android:textSize="26sp"
-                     android:textColor="#FFFFFF"
-                     android:maxLines="2"
-                     android:id="@+id/Game_Title"
-                     android:text="Loading..."
-                     android:textStyle="bold" />
+                    android:id="@+id/Game_Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text="@string/loading_hint"
+                    android:textColor="#FFFFFF"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                     android:layout_height="wrap_content"
-                     android:layout_width="match_parent"
-                     android:layout_marginBottom="20dp"
-                     android:textSize="16sp"
-                     android:textColor="#999999"
-                     android:id="@+id/Game_Package"
-                     android:text="Loading..."
-                     android:textStyle="bold"
-                     android:gravity="center" />
+                    android:id="@+id/Game_Package"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:text="@string/loading_hint"
+                    android:textColor="#999999"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
-                     android:layout_height="wrap_content"
-                     android:layout_width="match_parent"
-                     android:background="@drawable/rounded_background"
-                     android:elevation="6dp"
-                     android:padding="20dp"
-                     android:orientation="vertical"
-                     android:layout_marginTop="20dp"
-                     android:id="@+id/Game_Time_Adapter">
+                    android:id="@+id/Game_Time_Adapter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rounded_background"
+                    android:elevation="6dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
                     <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         android:layout_marginBottom="12dp"
-                         android:textSize="18sp"
-                         android:textColor="#FFFFFF"
-                         android:id="@+id/Game_Time_Title"
-                         android:text="@string/game_time"
-                         android:textStyle="bold" />
+                        android:id="@+id/Game_Time_Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="@string/game_time"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         android:gravity="right"
-                         android:textSize="20sp"
-                         android:textColor="#FFFFFF"
-                         android:id="@+id/total_time"
-                         android:text="Loading..."
-                         android:textStyle="bold" />
+                        android:id="@+id/total_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/loading_hint"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                     android:layout_height="wrap_content"
-                     android:layout_width="match_parent"
-                     android:background="@drawable/rounded_background"
-                     android:elevation="6dp"
-                     android:padding="20dp"
-                     android:orientation="vertical"
-                     android:layout_marginTop="20dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rounded_background"
+                    android:elevation="6dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
                     <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         android:layout_marginBottom="12dp"
-                         android:textSize="18sp"
-                         android:textColor="#FFFFFF"
-                         android:id="@+id/App_info_Title"
-                         android:text="@string/game_info"
-                         android:textStyle="bold" />
+                        android:id="@+id/App_info_Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="@string/game_info"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         android:orientation="horizontal"
-                         android:layout_marginTop="5dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
 
                         <TextView
-                             android:layout_height="match_parent"
-                             android:layout_width="0dp"
-                             android:textSize="16sp"
-                             android:textColor="#FEFEFE"
-                             android:layout_weight="1"
-                             android:id="@+id/Version_Title"
-                             android:text="Version:" />
+                            android:id="@+id/Version_Title"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Version:"
+                            android:textColor="#FEFEFE"
+                            android:textSize="16sp" />
 
                         <TextView
-                             android:layout_height="wrap_content"
-                             android:layout_width="wrap_content"
-                             android:textSize="16sp"
-                             android:textColor="#999999"
-                             android:singleLine="true"
-                             android:id="@+id/Game_version"
-                             android:text="1.0" />
+                            android:id="@+id/Game_version"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="@string/loading_hint"
+                            android:textColor="#999999"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         android:orientation="horizontal"
-                         android:layout_marginTop="15dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
 
                         <TextView
-                             android:layout_height="wrap_content"
-                             android:layout_width="0dp"
-                             android:textSize="16sp"
-                             android:textColor="#FEFEFE"
-                             android:layout_weight="1"
-                             android:id="@+id/Size_Title"
-                             android:text="@string/size" />
+                            android:id="@+id/Size_Title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/size"
+                            android:textColor="#FEFEFE"
+                            android:textSize="16sp" />
 
                         <TextView
-                             android:layout_height="wrap_content"
-                             android:layout_width="wrap_content"
-                             android:textSize="16sp"
-                             android:textColor="#999999"
-                             android:id="@+id/Game_size"
-                             android:text="0 MB" />
+                            android:id="@+id/Game_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/loading_hint"
+                            android:textColor="#999999"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/Fab_Supporter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom|center"
+                android:padding="16dp">
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/fab_show_in_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="@string/fab_show_in_settings"
+                    app:icon="@drawable/ic_open_external"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 

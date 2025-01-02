@@ -1,47 +1,47 @@
-
 plugins {
-    id("com.android.application")
-    
+    alias(libs.plugins.android.application)
 }
 
 android {
     namespace = "com.tcd.gamelauncher"
     compileSdk = 34
-    
+
     defaultConfig {
         applicationId = "com.tcd.gamelauncher"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.1"
-        
-        vectorDrawables { 
-            useSupportLibrary = true
-        }
-    }
-    
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        versionCode = 3
+        versionName = "1.0.2"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        getByName("debug") {
+            versionNameSuffix = "debug"
         }
     }
-
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
     buildFeatures {
         viewBinding = true
         dataBinding = true
     }
-    
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.11.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.activity)
+    implementation(libs.constraintlayout)
+    implementation(libs.gson)
+    implementation(libs.preference)
+    implementation(libs.gridlayout)
 }
