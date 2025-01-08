@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements GameFragment.OnGa
             gameList.remove(game);
         }
         saveGame();
-        gameAdapter.notifyDataSetChanged();
+        runOnUiThread(() -> gameAdapter.notifyDataSetChanged());
     }
 
     private void loadBlacklist() {

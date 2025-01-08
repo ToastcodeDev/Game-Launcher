@@ -66,7 +66,6 @@ public class AppSelectorFragment extends Fragment {
                         LinearLayout layout = (LinearLayout) holder.itemView;
                         ImageView icon = layout.findViewById(R.id.app_icon);
                         TextView name = layout.findViewById(R.id.app_name);
-
                         icon.setImageDrawable(appInfo.loadIcon(pm));
                         name.setText(appInfo.loadLabel(pm));
 
